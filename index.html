@@ -18,6 +18,10 @@ let W,H;
 function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
 resize();window.addEventListener('resize',resize);
 
+const img={};
+img.enemy=new Image();img.enemy.src='nyengir/asset/alien.jpg';
+img.player=new Image();img.player.src='nyengir/asset/police.jpg';
+
 let AC;
 function initAudio(){try{if(!AC)AC=new(AudioContext||webkitAudioContext)()}catch(e){}}
 function saf(f){try{f()}catch(e){}}
@@ -75,7 +79,7 @@ function spawnWave(){
     if(S.wave>=5)pats.push('spiral');
     const pat=pats[Math.floor(Math.random()*pats.length)];
     S.en.push({
-      x,y,vx:0,vy:0.8+Math.random()*0.6,size:16,
+      x,y,vx:0,vy:0.8+Math.random()*0.6,size:24,imgW:50,imgH:38,
       hp:1+Math.floor(S.wave/4),maxHp:1+Math.floor(S.wave/4),
       type,pat,ft:40+Math.random()*40,ang:0,
       mt:0,bx:x,ty:60+Math.random()*120,fi:type==='basic'?60:80
@@ -196,7 +200,7 @@ function update(){
   if(S.inv<=0){
     for(let i=S.eb.length-1;i>=0;i--){
       const b=S.eb[i];
-      if(Math.hypot(b.x-S.p.x,b.y-S.p.y)<b.rad+3){
+      if(Math.hypot(b.x-S.p.x,b.y-S.p.y)<b.rad+6){
         hit();
         break;
       }
@@ -205,7 +209,7 @@ function update(){
     if(S.inv<=0){
       for(let i=S.en.length-1;i>=0;i--){
         const e=S.en[i];
-        if(Math.hypot(e.x-S.p.x,e.y-S.p.y)<e.size+6){
+        if(Math.hypot(e.x-S.p.x,e.y-S.p.y)<e.size+10){
           hit();break;
         }
       }
@@ -291,16 +295,11 @@ function draw(){
     const col=e.type==='basic'?'#44ff44':'#bb44ff';
     ctx.shadowColor=col;
     ctx.fillStyle=col;
-    ctx.beginPath();
-    ctx.moveTo(e.x,e.y-e.size);
-    ctx.lineTo(e.x+e.size*0.7,e.y);
-    ctx.lineTo(e.x,e.y+e.size);
-    ctx.lineTo(e.x-e.size*0.7,e.y);
-    ctx.closePath();ctx.fill();
+    ctx.drawImage(img.enemy,e.x-e.imgW/2,e.y-e.imgH/2,e.imgW,e.imgH);
     // hp bar
     if(e.hp<e.maxHp){
       ctx.shadowBlur=0;
-      const bw=28,bh=3,by=e.y-e.size-8;
+      const bw=50,bh=3,by=e.y-e.imgH/2-8;
       ctx.fillStyle='rgba(255,0,0,0.5)';
       ctx.fillRect(e.x-bw/2,by,bw,bh);
       ctx.fillStyle='#ff0';
@@ -313,13 +312,7 @@ function draw(){
   ctx.shadowColor='#00ffff';
   const flash=S.inv>0&&Math.floor(S.inv/4)%2===0;
   if(!flash){
-    ctx.fillStyle='#00ffff';
-    ctx.beginPath();
-    ctx.moveTo(S.p.x,S.p.y-14);
-    ctx.lineTo(S.p.x+10,S.p.y+6);
-    ctx.lineTo(S.p.x,S.p.y+2);
-    ctx.lineTo(S.p.x-10,S.p.y+6);
-    ctx.closePath();ctx.fill();
+    ctx.drawImage(img.player,S.p.x-17,S.p.y-20,34,40);
     // hitbox dot
     ctx.shadowBlur=0;
     ctx.fillStyle='#ff0044';

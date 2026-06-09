@@ -9,8 +9,8 @@ i vibe coded it
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
+git clone https://github.com/griimmv/bullet-hell.git
+cd bullet-hell
 ```
 
 open index.html in your file manager
