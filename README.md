@@ -1,8 +1,12 @@
+tugas sekolah
+
+i vibe coded it
+
+![nyengir](nyengir/nyengir.jpg)
+
 # Bullet Hell Game
 
 A browser-based bullet hell shooter built with vanilla JavaScript and Canvas API.
-
-![nyengir](nyengir/nyengir.jpg)
 
 ## Installation
 
